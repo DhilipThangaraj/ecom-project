@@ -1,7 +1,12 @@
-import { Button } from "@/components/ui/button";
+import ProductList from "@/components/product/product-list";
+import sampleData from "@/db/sample-data";
 
 const HomePage = () => {
-  return <Button>Button</Button>;
+  return (
+    <>
+      <ProductList data={sampleData.products} title="Newest Arrival" />
+    </>
+  );
 };
 
 export default HomePage;
