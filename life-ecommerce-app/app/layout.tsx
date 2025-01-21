@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   description: "A modern ecommerce platform built with Next js",
 };
 
+//Main Layout
 export default function RootLayout({
   children,
 }: Readonly<{
