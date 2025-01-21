@@ -3,6 +3,8 @@ import sampleData from "@/db/sample-data";
 import { notFound } from "next/navigation";
 import ProductPrice from "@/components/product/product-price";
 import ProductImages from "@/components/product/product-images";
+import AddToCart from "@/components/product/add-to-cart";
+import { CardContent, Card } from "@/components/ui/card";
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -44,6 +46,31 @@ const ProductDetailsPage = async (props: {
               <p className="font-semibold">Description</p>
               <p>{product.description}</p>
             </div>
+          </div>
+          <div>
+            <Card>
+              <CardContent className="p-4">
+                <div className="mb-2 flex justify-between">
+                  <div>Price</div>
+                  <div>
+                    <ProductPrice value={Number(product.price)} />
+                  </div>
+                </div>
+                <div className="mb-2 flex justify-between">
+                  <div>Status</div>
+                  {product.stock > 0 ? (
+                    <Badge variant="outline">In Stock</Badge>
+                  ) : (
+                    <Badge variant="destructive">Out Of Stock</Badge>
+                  )}
+                </div>
+                {product.stock > 0 && (
+                  <div className="flex-center">
+                    <AddToCart />
+                  </div>
+                )}
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
