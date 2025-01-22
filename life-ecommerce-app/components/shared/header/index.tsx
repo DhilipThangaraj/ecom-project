@@ -8,13 +8,13 @@ const Header = () => {
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
-        <div className="flex-start">
+        <div className="flex-start h-3">
           <Link href="/" className="flex-start">
             <Image
-              src="/images/logo.svg"
+              src="/images/Life-Pharmacy-Logo.png"
               alt={`${APP_NAME}`}
-              height={48}
-              width={48}
+              height={100}
+              width={100}
               priority={true}
             />
             <span className="hidden lg:block font-bold text-2xl ml-3"></span>

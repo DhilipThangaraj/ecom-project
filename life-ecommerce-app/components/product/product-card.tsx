@@ -10,7 +10,10 @@ const ProductCard = ({ product }: { product: any }) => {
       <CardHeader className="p-0 items-center">
         <Link href={`/product/${product?.slug}`}>
           <Image
-            src={product?.images?.gallery_images[0]?.image || null}
+            src={
+              product?.images?.gallery_images[0]?.image ||
+              "https://life-cdn.lifepharmacy.com/images/products/final-1024x1024-1024x1024.jpg"
+            }
             alt={product?.title}
             height={300}
             width={300}

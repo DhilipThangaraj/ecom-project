@@ -10,7 +10,10 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <Image
-        src={images[current]?.full || null}
+        src={
+          images[current]?.full ||
+          "https://life-cdn.lifepharmacy.com/images/products/final-1024x1024-1024x1024.jpg"
+        }
         alt="product image"
         width={1000}
         height={1000}
@@ -28,7 +31,10 @@ const ProductImages = ({ images }: { images: string[] }) => {
               )}
             >
               <Image
-                src={image?.thumbnail || null}
+                src={
+                  image?.thumbnail ||
+                  "https://life-cdn.lifepharmacy.com/images/products/final-1024x1024-1024x1024.jpg"
+                }
                 alt={"image"}
                 height={100}
                 width={100}

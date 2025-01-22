@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import { Badge } from "@/components/ui/badge";
 import { notFound } from "next/navigation";
 import ProductPrice from "@/components/product/product-price";
@@ -29,11 +30,6 @@ interface ProductDetailResponse {
   product: ProductDetail;
 }
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
 // Fetch Product Detail Function
 async function fetchProductDetail(
   slug: string
@@ -53,8 +49,12 @@ async function fetchProductDetail(
   }
 }
 
-const ProductDetailsPage = ({ params }: PageProps) => {
-  const { slug } = params;
+const ProductDetailsPage = ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
+  const { slug } = use(params);
   const { toast } = useToast();
 
   // Use query hook to fetch product details
