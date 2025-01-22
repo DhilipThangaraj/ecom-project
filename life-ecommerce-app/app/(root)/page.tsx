@@ -3,6 +3,7 @@
 import { useInfiniteQuery, QueryFunctionContext } from "@tanstack/react-query";
 import ProductList from "@/components/product/product-list";
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingPage from "../loading";
 
 interface Product {
   slug: string;
@@ -69,7 +70,7 @@ const HomePage: React.FC = () => {
         lastPage.hasMore ? pages.length : undefined,
     });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LoadingPage />;
   if (isError) return <div>Error: {(error as Error).message}</div>;
 
   // Flatten all products from pages

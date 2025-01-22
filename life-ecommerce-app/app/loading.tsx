@@ -8,11 +8,10 @@ const LoadingPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "100vh",
-        width: "100vw",
+        marginTop: "25%",
       }}
     >
-      <Image src={loader || null} height={150} width={150} alt="Loading..." />
+      <Image src={loader || null} height={100} width={100} alt="Loading..." />
     </div>
   );
 };

@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import LoadingPage from "@/app/loading";
 
 // Define the product detail structure based on your API response
 interface ProductDetail {
@@ -67,7 +68,7 @@ const ProductDetailsPage = ({
   });
 
   if (status === "pending") {
-    return <span>Loading...</span>;
+    return <LoadingPage />;
   }
 
   if (status === "error") {
