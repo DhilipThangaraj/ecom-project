@@ -2,6 +2,7 @@
   "name": "life-ecommerce-app",
   "version": "0.1.0",
   "private": true,
+  "author": "dhilipkumar thangaraj",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

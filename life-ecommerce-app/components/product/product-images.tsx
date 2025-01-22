@@ -10,7 +10,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <Image
-        src={images[current]?.full}
+        src={images[current]?.full || null}
         alt="product image"
         width={1000}
         height={1000}
@@ -28,7 +28,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
               )}
             >
               <Image
-                src={image?.thumbnail}
+                src={image?.thumbnail || null}
                 alt={"image"}
                 height={100}
                 width={100}
