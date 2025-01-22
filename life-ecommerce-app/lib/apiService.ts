@@ -1,6 +1,7 @@
 // lib/apiService.ts
 import axiosInstance from "./axiosInstance";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export async function apiRequest<T>(
   method: "GET" | "POST" | "PATCH" | "DELETE",
   url: string,

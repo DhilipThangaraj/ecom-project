@@ -6,7 +6,6 @@ import { PRODUCT_LIST } from "@/react-query/query-keys";
 import { useQuery } from "@tanstack/react-query";
 
 import { Product } from "@/types";
-import LoadingPage from "../loading";
 
 interface ProductsListResponse {
   products?: Product[];

@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
-const CartTable = ({ cart }: { cart?: any }) => {
+const CartTable = () => {
   return (
     <>
       <h1 className="py-4 h2-bold">Shopping Cart</h1>

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const AddToCart = ({ title }: { title: any }) => {
   const router = useRouter();
   const { toast } = useToast();

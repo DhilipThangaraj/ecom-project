@@ -1,4 +1,3 @@
-import { title } from "process";
 import CartTable from "./cart-table";
 
 export const metadata = {

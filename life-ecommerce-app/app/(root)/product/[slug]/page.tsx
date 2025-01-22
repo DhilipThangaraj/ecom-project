@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 
+// Define the product detail structure based on your API response
 interface ProductDetail {
   name: string;
   brand: string;
@@ -28,6 +29,11 @@ interface ProductDetailResponse {
   product: ProductDetail;
 }
 
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
 // Fetch Product Detail Function
 async function fetchProductDetail(
   slug: string
@@ -47,21 +53,21 @@ async function fetchProductDetail(
   }
 }
 
-const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
+const ProductDetailsPage = ({ params }: PageProps) => {
   const { slug } = params;
-
   const { toast } = useToast();
-  const {
-    status,
-    data: productDetailtData,
-    error,
-  } = useQuery<ProductDetailResponse, Error>({
+
+  // Use query hook to fetch product details
+  const { status, data: productDetailData } = useQuery<
+    ProductDetailResponse,
+    Error
+  >({
     queryKey: ["productDetail", slug],
     queryFn: () => fetchProductDetail(slug),
   });
 
   if (status === "pending") {
-    return <span></span>;
+    return <span>Loading...</span>;
   }
 
   if (status === "error") {
@@ -72,26 +78,22 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
           className="bg-primary text-white hover:bg-gray-800"
           altText="Go To Home"
         >
-          ${"Product is not available"}
+          {"Product is not available"}
         </ToastAction>
       ),
     });
+    return null;
   }
 
-  if (!productDetailtData) {
+  // If no data is returned, show notFound
+  if (!productDetailData) {
     notFound();
+    return null;
   }
 
-  const {
-    images,
-    brand,
-    categories,
-    title,
-    rating,
-    sale,
-    short_description,
-    stock,
-  } = productDetailtData?.data?.product_details;
+  // Destructure product data from the API response
+  const { images, brand, categories, name, rating, sale, description, stock } =
+    productDetailData.product;
 
   return (
     <>
@@ -99,15 +101,16 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Images Column */}
           <div className="col-span-2">
-            <ProductImages images={images?.gallery_images || null} />
+            <ProductImages images={images || []} />
           </div>
+
           {/* Details Column */}
           <div className="col-span-2 p-5">
             <div className="flex flex-col gap-6">
               <p>
-                {brand?.name} {categories[0]?.name}
+                {brand} {categories?.[0]?.name}
               </p>
-              <h1 className="h3-bold">{title}</h1>
+              <h1 className="h3-bold">{name}</h1>
               <p>{rating} Ratings</p>
               <p>{10} reviews</p>
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
@@ -123,10 +126,12 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
               <p className="font-semibold">Description</p>
               <div
                 className="mt-10"
-                dangerouslySetInnerHTML={{ __html: short_description }}
+                dangerouslySetInnerHTML={{ __html: description }}
               />
             </div>
           </div>
+
+          {/* Product Card */}
           <div>
             <Card>
               <CardContent className="p-4">
@@ -150,7 +155,7 @@ const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
                 </div>
                 {stock?.max > 0 && (
                   <div className="flex-center">
-                    <AddToCart title={title} />
+                    <AddToCart title={name} />
                   </div>
                 )}
               </CardContent>
