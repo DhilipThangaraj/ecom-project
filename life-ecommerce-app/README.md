@@ -30,6 +30,8 @@ If you don't have **pnpm** installed, you can install it globally by running:
 
 ```bash
 npm install -g pnpm
+
+pnpm install
 ```
 
 ### 2. start the server
