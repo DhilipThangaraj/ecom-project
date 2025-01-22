@@ -92,8 +92,8 @@ const ProductDetailsPage = ({ params }: PageProps) => {
   }
 
   // Destructure product data from the API response
-  const { images, brand, categories, name, rating, sale, description, stock } =
-    productDetailData.product;
+  const { images, brand, categories, title, rating, sale, description, stock } =
+    productDetailData.data.product_details;
 
   return (
     <>
@@ -101,23 +101,23 @@ const ProductDetailsPage = ({ params }: PageProps) => {
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Images Column */}
           <div className="col-span-2">
-            <ProductImages images={images || []} />
+            <ProductImages images={images?.gallery_images || []} />
           </div>
 
           {/* Details Column */}
           <div className="col-span-2 p-5">
             <div className="flex flex-col gap-6">
               <p>
-                {brand} {categories?.[0]?.name}
+                {brand?.name || ""} {categories?.[0]?.name || ""}
               </p>
-              <h1 className="h3-bold">{name}</h1>
-              <p>{rating} Ratings</p>
+              <h1 className="h3-bold">{title || ""}</h1>
+              <p>{rating || 0} Ratings</p>
               <p>{10} reviews</p>
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <ProductPrice
-                  regularPrice={sale?.regular_price}
-                  offerPrice={sale?.offer_price}
-                  currency={sale?.currency}
+                  regularPrice={sale?.regular_price || "0"}
+                  offerPrice={sale?.offer_price || 0}
+                  currency={sale?.currency || "AED"}
                   className="w-24 rounded-full bg-green-100 text-green-700 px-5 py-2"
                 />
               </div>
@@ -126,7 +126,7 @@ const ProductDetailsPage = ({ params }: PageProps) => {
               <p className="font-semibold">Description</p>
               <div
                 className="mt-10"
-                dangerouslySetInnerHTML={{ __html: description }}
+                dangerouslySetInnerHTML={{ __html: description || "demo" }}
               />
             </div>
           </div>
@@ -139,9 +139,9 @@ const ProductDetailsPage = ({ params }: PageProps) => {
                   <div>Price</div>
                   <div>
                     <ProductPrice
-                      regularPrice={sale?.regular_price}
-                      offerPrice={sale?.offer_price}
-                      currency={sale?.currency}
+                      regularPrice={sale?.regular_price || "0"}
+                      offerPrice={sale?.offer_price || 0}
+                      currency={sale?.currency || "AED"}
                     />
                   </div>
                 </div>
@@ -155,7 +155,7 @@ const ProductDetailsPage = ({ params }: PageProps) => {
                 </div>
                 {stock?.max > 0 && (
                   <div className="flex-center">
-                    <AddToCart title={name} />
+                    <AddToCart title={title} />
                   </div>
                 )}
               </CardContent>
