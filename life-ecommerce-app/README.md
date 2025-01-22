@@ -18,6 +18,8 @@ Make sure you have the following installed:
 - **React (19.x)**
 - **Next.js (15.x)**
 - **TypeScript**
+- **Shadcn**
+- **Tailwind**
 - **pnpm** (for package management)
 
 ### 1. Install Dependencies
@@ -28,4 +30,10 @@ If you don't have **pnpm** installed, you can install it globally by running:
 
 ```bash
 npm install -g pnpm
+```
+
+### 2. start the server
+
+```bash
+pnpm run dev
 ```
