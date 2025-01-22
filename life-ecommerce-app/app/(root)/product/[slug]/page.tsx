@@ -66,7 +66,7 @@ const ProductDetailsPage = async (props: {
                 </div>
                 {product.stock > 0 && (
                   <div className="flex-center">
-                    <AddToCart />
+                    <AddToCart product={product} />
                   </div>
                 )}
               </CardContent>
