@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
 
-const AddToCart = ({ product }: { product: any }) => {
+const AddToCart = ({ title }: { title: any }) => {
   const router = useRouter();
   const { toast } = useToast();
 
   const handleAddToCart = () => {
     toast({
-      description: `${product.name} is added to cart.`,
+      description: `${title} is added to cart.`,
       action: (
         <ToastAction
           className="bg-primary text-white hover:bg-gray-800"

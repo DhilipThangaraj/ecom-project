@@ -1,50 +1,130 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
-import sampleData from "@/db/sample-data";
 import { notFound } from "next/navigation";
 import ProductPrice from "@/components/product/product-price";
 import ProductImages from "@/components/product/product-images";
 import AddToCart from "@/components/product/add-to-cart";
 import { CardContent, Card } from "@/components/ui/card";
+import { apiRequest } from "@/lib/apiService";
+import { useQuery } from "@tanstack/react-query";
 
-const ProductDetailsPage = async (props: {
-  params: Promise<{ slug: string }>;
-}) => {
-  const { slug } = await props.params;
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
-  const product = await sampleData.products.find((item) => item.slug === slug);
+interface ProductDetail {
+  name: string;
+  brand: string;
+  category: string;
+  rating: number;
+  numReviews: number;
+  price: number;
+  stock: number;
+  description: string;
+  images: string[];
+}
 
-  if (!product) {
+interface ProductDetailResponse {
+  product: ProductDetail;
+}
+
+// Fetch Product Detail Function
+async function fetchProductDetail(
+  slug: string
+): Promise<ProductDetailResponse> {
+  try {
+    const productDetailData = await apiRequest<ProductDetailResponse>(
+      "GET",
+      `/product/${slug}`
+    );
+    return productDetailData;
+  } catch (error: unknown) {
+    console.error("Error fetching product detail:", error);
+    throw new Error(
+      (error as { message?: string })?.message ||
+        "Failed to fetch product detail"
+    );
+  }
+}
+
+const ProductDetailsPage = ({ params }: { params: { slug: string } }) => {
+  const { slug } = params;
+
+  const { toast } = useToast();
+  const {
+    status,
+    data: productDetailtData,
+    error,
+  } = useQuery<ProductDetailResponse, Error>({
+    queryKey: ["productDetail", slug],
+    queryFn: () => fetchProductDetail(slug),
+  });
+
+  if (status === "pending") {
+    return <span></span>;
+  }
+
+  if (status === "error") {
+    toast({
+      description: `The product is not available`,
+      action: (
+        <ToastAction
+          className="bg-primary text-white hover:bg-gray-800"
+          altText="Go To Home"
+        >
+          ${"Product is not available"}
+        </ToastAction>
+      ),
+    });
+  }
+
+  if (!productDetailtData) {
     notFound();
   }
+
+  const {
+    images,
+    brand,
+    categories,
+    title,
+    rating,
+    sale,
+    short_description,
+    stock,
+  } = productDetailtData?.data?.product_details;
+
   return (
     <>
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
-          {/*Images Column */}
+          {/* Images Column */}
           <div className="col-span-2">
-            <ProductImages images={product.images} />
+            <ProductImages images={images?.gallery_images || null} />
           </div>
           {/* Details Column */}
           <div className="col-span-2 p-5">
             <div className="flex flex-col gap-6">
               <p>
-                {product.brand} {product.category}
+                {brand?.name} {categories[0]?.name}
               </p>
-              <h1 className="h3-bold">{product.name}</h1>
-              <p>
-                {product.rating} of {product.numReviews} Reviews
-              </p>
-              <p>{product.numReviews} reviews</p>
+              <h1 className="h3-bold">{title}</h1>
+              <p>{rating} Ratings</p>
+              <p>{10} reviews</p>
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <ProductPrice
-                  value={Number(product.price)}
+                  regularPrice={sale?.regular_price}
+                  offerPrice={sale?.offer_price}
+                  currency={sale?.currency}
                   className="w-24 rounded-full bg-green-100 text-green-700 px-5 py-2"
                 />
               </div>
             </div>
             <div className="mt-10">
               <p className="font-semibold">Description</p>
-              <p>{product.description}</p>
+              <div
+                className="mt-10"
+                dangerouslySetInnerHTML={{ __html: short_description }}
+              />
             </div>
           </div>
           <div>
@@ -53,20 +133,24 @@ const ProductDetailsPage = async (props: {
                 <div className="mb-2 flex justify-between">
                   <div>Price</div>
                   <div>
-                    <ProductPrice value={Number(product.price)} />
+                    <ProductPrice
+                      regularPrice={sale?.regular_price}
+                      offerPrice={sale?.offer_price}
+                      currency={sale?.currency}
+                    />
                   </div>
                 </div>
                 <div className="mb-2 flex justify-between">
                   <div>Status</div>
-                  {product.stock > 0 ? (
+                  {stock?.max > 0 ? (
                     <Badge variant="outline">In Stock</Badge>
                   ) : (
                     <Badge variant="destructive">Out Of Stock</Badge>
                   )}
                 </div>
-                {product.stock > 0 && (
+                {stock?.max > 0 && (
                   <div className="flex-center">
-                    <AddToCart product={product} />
+                    <AddToCart title={title} />
                   </div>
                 )}
               </CardContent>

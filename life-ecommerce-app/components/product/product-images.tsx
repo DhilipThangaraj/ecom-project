@@ -10,7 +10,7 @@ const ProductImages = ({ images }: { images: string[] }) => {
   return (
     <div className="space-y-4">
       <Image
-        src={images[current]}
+        src={images[current]?.full}
         alt="product image"
         width={1000}
         height={1000}
@@ -27,7 +27,12 @@ const ProductImages = ({ images }: { images: string[] }) => {
                 current === index && "border-orange-500"
               )}
             >
-              <Image src={image} alt={"image"} height={100} width={100} />
+              <Image
+                src={image?.thumbnail}
+                alt={"image"}
+                height={100}
+                width={100}
+              />
             </div>
           );
         })}
