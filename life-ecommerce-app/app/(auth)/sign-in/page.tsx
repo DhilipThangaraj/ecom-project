@@ -19,7 +19,7 @@ const SignInPage = () => {
   return (
     <div className="w-full max-w-md mx-auto">
       <Card>
-        <CardHeader className="space-y-4 h-2">
+        <CardHeader className="space-y-4">
           <Link href="/" className="flex-center">
             <Image
               src="/images/Life-Pharmacy-Logo.png"

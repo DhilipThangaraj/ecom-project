@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <header className="w-full border-b">
       <div className="wrapper flex-between">
-        <div className="flex-start h-3">
+        <div className="flex-start">
           <Link href="/" className="flex-start">
             <Image
               src="/images/Life-Pharmacy-Logo.png"
